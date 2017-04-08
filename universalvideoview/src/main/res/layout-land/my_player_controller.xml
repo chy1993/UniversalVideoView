@@ -82,7 +82,7 @@
         android:gravity="center_vertical">
 
         <LinearLayout
-            android:id="@+id/ll"
+            android:id="@+id/llplay"
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
             <ImageButton android:id="@+id/prev" style="@android:style/MediaButton.Previous" />
@@ -92,25 +92,35 @@
         </LinearLayout>
 
 
-        <ImageButton
-            android:id="@+id/scale_button"
+        <LinearLayout
+            android:id="@+id/llVolume"
+            android:layout_toLeftOf="@id/scale_button"
+            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="3dp"
-            android:background="#00000000"
-            android:padding="10dp"
-            android:scaleType="fitCenter"
-            android:visibility="visible"
-            android:src="@drawable/uvv_player_scale_btn" />
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/ivVolume"
+                android:src="@drawable/max_volume_bg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <SeekBar
+                android:id="@+id/sbVolumeSlider"
+                android:background="@drawable/max_volume_slider_bg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+
+        </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llController"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_gravity="center_vertical"
-            android:layout_toLeftOf="@id/scale_button"
-            android:layout_toRightOf="@id/ll"
+            android:layout_toLeftOf="@id/llVolume"
+            android:layout_toRightOf="@id/llplay"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
@@ -147,6 +157,19 @@
                 android:text="00:00"
                 android:textColor="@color/uvv_light_gray" />
         </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/scale_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:visibility="visible"
+            android:src="@drawable/uvv_player_scale_btn"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
     </RelativeLayout>
 
 
