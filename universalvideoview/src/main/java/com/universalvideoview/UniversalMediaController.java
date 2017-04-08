@@ -43,6 +43,8 @@ public class UniversalMediaController extends FrameLayout {
 
     private UniversalMediaController.MediaPlayerControl mPlayer;
 
+    private PlayPrevNextListener mPlayPrevNextListener;
+
     private Context mContext;
 
     private ProgressBar mProgress;
@@ -114,6 +116,10 @@ public class UniversalMediaController extends FrameLayout {
     public UniversalMediaController(Context context) {
         super(context);
         init(context);
+    }
+
+    public void setPlayPrevNextListener(PlayPrevNextListener mlistener){
+        this.mPlayPrevNextListener = mlistener;
     }
 
     /**
@@ -524,7 +530,11 @@ public class UniversalMediaController extends FrameLayout {
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(mContext,"播放上一首",Toast.LENGTH_SHORT).show();
+//            Toast.makeText(mContext,"播放上一首",Toast.LENGTH_SHORT).show();
+            if (mPlayPrevNextListener!=null){
+                mPlayPrevNextListener.prev();
+            }
+
         }
     };
 
@@ -533,7 +543,11 @@ public class UniversalMediaController extends FrameLayout {
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(mContext,"播放下一首",Toast.LENGTH_SHORT).show();
+//            Toast.makeText(mContext,"播放下一首",Toast.LENGTH_SHORT).show();
+            if (mPlayPrevNextListener!=null){
+                mPlayPrevNextListener.next();
+            }
+
         }
     };
 
@@ -770,5 +784,13 @@ public class UniversalMediaController extends FrameLayout {
          *                          ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
          */
         void setFullscreen(boolean fullscreen, int screenOrientation);
+    }
+
+    /**
+     * 未外界提供上一首 下一首 具体实现的回调接口
+     */
+    public interface PlayPrevNextListener {
+        void prev();
+        void next();
     }
 }

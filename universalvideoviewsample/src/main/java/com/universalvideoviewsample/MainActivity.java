@@ -31,11 +31,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.universalvideoview.UniversalMediaController;
 import com.universalvideoview.UniversalVideoView;
 
-public class MainActivity extends AppCompatActivity implements UniversalVideoView.VideoViewCallback{
+public class MainActivity extends AppCompatActivity implements UniversalVideoView.VideoViewCallback,
+    UniversalMediaController.PlayPrevNextListener{
     private static final int MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 1;
 
     private static final String TAG = "MainActivity";
@@ -64,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements UniversalVideoVie
         mBottomLayout = findViewById(R.id.bottom_layout);
         mVideoView = (UniversalVideoView) findViewById(R.id.videoView);
         mMediaController = (UniversalMediaController) findViewById(R.id.media_controller);
+        mMediaController.setPlayPrevNextListener(this);
+
         mVideoView.setMediaController(mMediaController);
         setVideoAreaSize();
         mVideoView.setVideoViewCallback(this);
@@ -212,4 +216,15 @@ public class MainActivity extends AppCompatActivity implements UniversalVideoVie
         }
     }
 
+    //实现上一首
+    @Override
+    public void prev() {
+        Toast.makeText(this,"播放上一首",Toast.LENGTH_SHORT).show();
+    }
+
+    //实现下一首
+    @Override
+    public void next() {
+        Toast.makeText(this,"播放下一首",Toast.LENGTH_SHORT).show();
+    }
 }
