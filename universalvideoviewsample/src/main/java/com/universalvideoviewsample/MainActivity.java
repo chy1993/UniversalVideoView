@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements UniversalVideoVie
         mVideoView.setVideoViewCallback(this);
         mStart = (TextView) findViewById(R.id.start);
 
+
+        setVideoPath(VIDEO_LOCAL_URL);
         mStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements UniversalVideoVie
     }
 
     /**
-     * 置视频区域大小
+     * 设置视频区域大小
      */
     private void setVideoAreaSize() {
         mVideoLayout.post(new Runnable() {
@@ -125,18 +127,6 @@ public class MainActivity extends AppCompatActivity implements UniversalVideoVie
 //                mVideoView.requestFocus();
 
 
-                //关于权限
-                if (ContextCompat.checkSelfPermission(MainActivity.this,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED)
-                {
-                    ActivityCompat.requestPermissions(MainActivity.this,
-                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                            MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE);
-                } else {
-                    mVideoView.setVideoPath(VIDEO_LOCAL_URL);
-                    mVideoView.requestFocus();
-                }
             }
         });
     }
@@ -224,9 +214,10 @@ public class MainActivity extends AppCompatActivity implements UniversalVideoVie
         Toast.makeText(this,"播放上一首",Toast.LENGTH_SHORT).show();
 
         String[] a = getFiles("/sdcard/Download");
-        for (int i=0; i<a.length; i++){
-            Log.i("2222222222222",a[i]);
-        }
+        int currentPosition =  findFileName(a,"KLSW_1.mp4");
+
+        setVideoPath(VIDEO_LOCAL_URL);
+        mVideoView.start();
     }
 
     //实现下一首
@@ -243,8 +234,29 @@ public class MainActivity extends AppCompatActivity implements UniversalVideoVie
     }
 
     //在String[]中 查找某一文件名 若找到返回其位置，否则返回-1
-    public int findFileName(String fileName){
+    public int findFileName(String[] files ,String fileName){
+        for (int i=0; i<files.length; i++){
+            if (fileName.equals(files[i])){
+                return i;
+            }
+        }
         return -1;
+    }
+
+
+    void setVideoPath(String path){
+        //关于权限
+        if (ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE);
+        } else {
+            mVideoView.setVideoPath(path);
+            mVideoView.requestFocus();
+        }
     }
 
 }

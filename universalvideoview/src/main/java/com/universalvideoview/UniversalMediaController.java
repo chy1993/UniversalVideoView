@@ -730,17 +730,6 @@ public class UniversalMediaController extends FrameLayout {
     };
 
 
-//    mVoiceObserver = new ContentObserver(new Handler()) {
-//        @Override
-//        public void onChange(boolean selfChange) {
-//            // TODO Auto-generated method stub
-//            super.onChange(selfChange);
-//            AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-//            mVoiceSeekBar.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_SYSTEM));
-//            //或者你也可以用媒体音量来监听改变，效果都是一样的。
-//            //mVoiceSeekBar.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
-//        }
-//    };
 
     @Override
     public void setEnabled(boolean enabled) {
@@ -884,7 +873,7 @@ public class UniversalMediaController extends FrameLayout {
             if(intent.getAction().equals("android.media.VOLUME_CHANGED_ACTION")){
                 AudioManager mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
                 int currVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) ;// 当前的媒体音量
-                mVolumeSeekbar.setProgress(currVolume) ;
+                mVolumeSeekbar.setProgress(currVolume);
             }
         }
     }
