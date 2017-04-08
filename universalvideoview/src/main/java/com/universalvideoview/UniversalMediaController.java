@@ -33,6 +33,7 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Formatter;
 import java.util.Locale;
@@ -82,11 +83,15 @@ public class UniversalMediaController extends FrameLayout {
 
     Formatter mFormatter;
 
-    private ImageButton mTurnButton;// 开启暂停按钮
+    private ImageButton mTurnButton;    // 开启暂停按钮
 
-    private ImageButton mScaleButton;
+    private ImageButton mScaleButton;   //全屏按钮
 
-    private View mBackButton;// 返回按钮
+    private ImageButton mPrevButton;    //上一视频
+
+    private ImageButton mNextButton;    //下一视频
+
+    private View mBackButton;           // 返回按钮
 
     private ViewGroup loadingLayout;
 
@@ -137,10 +142,25 @@ public class UniversalMediaController extends FrameLayout {
         mCenterPlayButton = v.findViewById(R.id.center_play_btn);
         mBackButton = v.findViewById(R.id.back_btn);
 
+        mPrevButton = (ImageButton) v.findViewById(R.id.prev);
+        mNextButton = (ImageButton) v.findViewById(R.id.next);
+
         if (mTurnButton != null) {
             mTurnButton.requestFocus();
             mTurnButton.setOnClickListener(mPauseListener);
         }
+        //添加上一视频播放按钮的监听
+        if (mPrevButton != null) {
+            mPrevButton.requestFocus();
+            mPrevButton.setOnClickListener(mPrevListener);
+        }
+
+        //添加下一视频播放按钮的监听
+        if (mNextButton != null) {
+            mNextButton.requestFocus();
+            mNextButton.setOnClickListener(mNextListener);
+        }
+
 
         if (mScalable) {
             if (mScaleButton != null) {
@@ -374,6 +394,7 @@ public class UniversalMediaController extends FrameLayout {
         }
     }
 
+    //seekbar与播放器相联系的地方
     private int setProgress() {
         if (mPlayer == null || mDragging) {
             return 0;
@@ -498,6 +519,25 @@ public class UniversalMediaController extends FrameLayout {
         }
     };
 
+    //播放上一首
+    private View.OnClickListener mPrevListener = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(mContext,"播放上一首",Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    //播放下一首
+    private View.OnClickListener mNextListener = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(mContext,"播放下一首",Toast.LENGTH_SHORT).show();
+        }
+    };
+
+
     private View.OnClickListener mScaleListener = new View.OnClickListener() {
         public void onClick(View v) {
             mIsFullScreen = !mIsFullScreen;
@@ -568,7 +608,7 @@ public class UniversalMediaController extends FrameLayout {
         updatePausePlay();
     }
 
-
+    //视频播放到具体位置的seekbar监听
     private OnSeekBarChangeListener mSeekListener = new OnSeekBarChangeListener() {
         int newPosition = 0;
 
