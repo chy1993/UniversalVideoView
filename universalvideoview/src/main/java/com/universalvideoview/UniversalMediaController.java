@@ -111,15 +111,22 @@ public class UniversalMediaController extends FrameLayout {
         init(context);
     }
 
+    /**
+     * 载入控制器自定义布局的地方
+     * @param context
+     */
     private void init(Context context) {
         mContext = context;
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View viewRoot = inflater.inflate(R.layout.uvv_player_controller, this);
+        View viewRoot = inflater.inflate(R.layout.my_player_controller, this);
         viewRoot.setOnTouchListener(mTouchListener);
         initControllerView(viewRoot);
     }
 
-
+    /**
+     * 初始化控制器控件的地方
+     * @param v
+     */
     private void initControllerView(View v) {
         mTitleLayout = v.findViewById(R.id.title_part);
         mControlLayout = v.findViewById(R.id.control_layout);
