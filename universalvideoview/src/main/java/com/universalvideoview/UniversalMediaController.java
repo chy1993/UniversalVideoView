@@ -17,8 +17,12 @@
 
 package com.universalvideoview;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.TypedArray;
+import android.media.AudioManager;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -48,6 +52,8 @@ public class UniversalMediaController extends FrameLayout {
     private Context mContext;
 
     private ProgressBar mProgress;
+
+    private SeekBar mVolumeSeekbar;
 
     private TextView mEndTime, mCurrentTime;
 
@@ -103,6 +109,10 @@ public class UniversalMediaController extends FrameLayout {
     private View mControlLayout;
 
     private View mCenterPlayButton;
+
+
+    public  AudioManager audiomanage;               //音量控制
+    private int maxVolume, currentVolume;           //音量最大值与当前值
 
     public UniversalMediaController(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -197,11 +207,29 @@ public class UniversalMediaController extends FrameLayout {
             mProgress.setMax(1000);
         }
 
+        //添加音量控制
+        View volumeBar = v.findViewById(R.id.sbVolumeSlider);
+        mVolumeSeekbar = (SeekBar) volumeBar;
+        initVolume(mVolumeSeekbar);
+        mVolumeSeekbar.setOnSeekBarChangeListener(mVolumeSeekListener);
+        mVolumeSeekbar.setMax(100);
+
+
+
         mEndTime = (TextView) v.findViewById(R.id.duration);
         mCurrentTime = (TextView) v.findViewById(R.id.has_played);
         mTitle = (TextView) v.findViewById(R.id.title);
         mFormatBuilder = new StringBuilder();
         mFormatter = new Formatter(mFormatBuilder, Locale.getDefault());
+    }
+
+
+    private void initVolume(SeekBar seekBar){
+        AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);//获取媒体系统服务
+        seekBar.setMax(maxVolume); //设置最大音量
+        currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);  //获取当前值
+        seekBar.setProgress(currentVolume);// 当前的媒体音量
+        myRegisterReceiver();//注册同步更新的广播
     }
 
 
@@ -674,6 +702,46 @@ public class UniversalMediaController extends FrameLayout {
         }
     };
 
+    //音量控制的seekbar监听
+    private OnSeekBarChangeListener mVolumeSeekListener = new OnSeekBarChangeListener(){
+
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//            audiomanage.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+//            currentVolume = audiomanage.getStreamVolume(AudioManager.STREAM_MUSIC);  //获取当前值
+//            seekBar.setProgress(currentVolume);
+
+
+            AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+            //系统音量和媒体音量同时更新
+            audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, progress, 0);
+            audioManager.setStreamVolume(3, progress, 0);//  3 代表  AudioManager.STREAM_MUSIC
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+
+        }
+    };
+
+
+//    mVoiceObserver = new ContentObserver(new Handler()) {
+//        @Override
+//        public void onChange(boolean selfChange) {
+//            // TODO Auto-generated method stub
+//            super.onChange(selfChange);
+//            AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+//            mVoiceSeekBar.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_SYSTEM));
+//            //或者你也可以用媒体音量来监听改变，效果都是一样的。
+//            //mVoiceSeekBar.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+//        }
+//    };
+
     @Override
     public void setEnabled(boolean enabled) {
 //        super.setEnabled(enabled);
@@ -793,4 +861,32 @@ public class UniversalMediaController extends FrameLayout {
         void prev();
         void next();
     }
+
+
+    /**
+     * 注册当音量发生变化时接收的广播
+     */
+    private void myRegisterReceiver(){
+        MyVolumeReceiver  mVolumeReceiver = new MyVolumeReceiver() ;
+        IntentFilter filter = new IntentFilter() ;
+        filter.addAction("android.media.VOLUME_CHANGED_ACTION") ;
+        mContext.registerReceiver(mVolumeReceiver, filter) ;
+    }
+
+    /**
+     * 处理音量变化时的界面显示
+     * @author long
+     */
+    private class MyVolumeReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //如果音量发生变化则更改seekbar的位置
+            if(intent.getAction().equals("android.media.VOLUME_CHANGED_ACTION")){
+                AudioManager mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+                int currVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) ;// 当前的媒体音量
+                mVolumeSeekbar.setProgress(currVolume) ;
+            }
+        }
+    }
+
 }

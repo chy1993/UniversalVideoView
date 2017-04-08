@@ -92,11 +92,24 @@
         </LinearLayout>
 
 
+        <ImageButton
+            android:id="@+id/scale_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="3dp"
+            android:background="#00000000"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:visibility="visible"
+            android:src="@drawable/uvv_player_scale_btn" />
+
         <LinearLayout
             android:id="@+id/llVolume"
             android:layout_toLeftOf="@id/scale_button"
             android:layout_gravity="center_vertical"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="match_parent">
             <ImageView
                 android:id="@+id/ivVolume"
@@ -107,6 +120,7 @@
             <SeekBar
                 android:id="@+id/sbVolumeSlider"
                 android:background="@drawable/max_volume_slider_bg"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -157,19 +171,6 @@
                 android:text="00:00"
                 android:textColor="@color/uvv_light_gray" />
         </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/scale_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#00000000"
-            android:padding="10dp"
-            android:scaleType="fitCenter"
-            android:visibility="visible"
-            android:src="@drawable/uvv_player_scale_btn"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
     </RelativeLayout>
 
 

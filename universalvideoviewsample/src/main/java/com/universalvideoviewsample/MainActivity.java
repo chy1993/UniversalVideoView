@@ -36,6 +36,8 @@ import android.widget.Toast;
 import com.universalvideoview.UniversalMediaController;
 import com.universalvideoview.UniversalVideoView;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity implements UniversalVideoView.VideoViewCallback,
     UniversalMediaController.PlayPrevNextListener{
     private static final int MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 1;
@@ -220,6 +222,11 @@ public class MainActivity extends AppCompatActivity implements UniversalVideoVie
     @Override
     public void prev() {
         Toast.makeText(this,"播放上一首",Toast.LENGTH_SHORT).show();
+
+        String[] a = getFiles("/sdcard/Download");
+        for (int i=0; i<a.length; i++){
+            Log.i("2222222222222",a[i]);
+        }
     }
 
     //实现下一首
@@ -227,4 +234,17 @@ public class MainActivity extends AppCompatActivity implements UniversalVideoVie
     public void next() {
         Toast.makeText(this,"播放下一首",Toast.LENGTH_SHORT).show();
     }
+
+
+    //获取某一目录下文件集合的方法
+    public String[] getFiles(String path){
+        File f = new File(path);
+        return f.list();
+    }
+
+    //在String[]中 查找某一文件名 若找到返回其位置，否则返回-1
+    public int findFileName(String fileName){
+        return -1;
+    }
+
 }
