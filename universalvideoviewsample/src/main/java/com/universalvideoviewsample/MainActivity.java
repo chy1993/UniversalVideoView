@@ -18,22 +18,31 @@
 
 package com.universalvideoviewsample;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.MediaController;
 import android.widget.TextView;
 
 import com.universalvideoview.UniversalMediaController;
 import com.universalvideoview.UniversalVideoView;
 
 public class MainActivity extends AppCompatActivity implements UniversalVideoView.VideoViewCallback{
+    private static final int MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 1;
 
     private static final String TAG = "MainActivity";
     private static final String SEEK_POSITION_KEY = "SEEK_POSITION_KEY";
     private static final String VIDEO_URL = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
+    private static final String VIDEO_LOCAL_URL = "/sdcard/Download/KLSW_1.mp4";
+
 
     UniversalVideoView mVideoView;
     UniversalMediaController mMediaController;
@@ -106,8 +115,22 @@ public class MainActivity extends AppCompatActivity implements UniversalVideoVie
                 videoLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
                 videoLayoutParams.height = cachedHeight;
                 mVideoLayout.setLayoutParams(videoLayoutParams);
-                mVideoView.setVideoPath(VIDEO_URL);
-                mVideoView.requestFocus();
+//                mVideoView.setVideoPath(VIDEO_LOCAL_URL);
+//                mVideoView.requestFocus();
+
+
+                //关于权限
+                if (ContextCompat.checkSelfPermission(MainActivity.this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED)
+                {
+                    ActivityCompat.requestPermissions(MainActivity.this,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE);
+                } else {
+                    mVideoView.setVideoPath(VIDEO_LOCAL_URL);
+                    mVideoView.requestFocus();
+                }
             }
         });
     }
