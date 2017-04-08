@@ -105,6 +105,7 @@
             android:visibility="visible"
             android:src="@drawable/uvv_player_scale_btn" />
 
+
         <LinearLayout
             android:id="@+id/llVolume"
             android:layout_toLeftOf="@id/scale_button"
@@ -129,11 +130,34 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_toLeftOf="@id/llVolume"
+            android:id="@+id/llReplayAndStop"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/replay"
+                android:src="@drawable/max_replay"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+
+
+            <ImageButton
+                android:id="@+id/stop"
+                android:src="@drawable/max_stop"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/llController"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_gravity="center_vertical"
-            android:layout_toLeftOf="@id/llVolume"
+            android:layout_toLeftOf="@id/llReplayAndStop"
             android:layout_toRightOf="@id/llplay"
             android:gravity="center_horizontal"
             android:orientation="horizontal">

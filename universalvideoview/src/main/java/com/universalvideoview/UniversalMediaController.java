@@ -99,6 +99,10 @@ public class UniversalMediaController extends FrameLayout {
 
     private ImageButton mNextButton;    //下一视频
 
+    private ImageButton mReplayButton;   //重新播放
+
+    private ImageButton mStopButton;     //停止播放
+
     private View mBackButton;           // 返回按钮
 
     private ViewGroup loadingLayout;
@@ -161,6 +165,9 @@ public class UniversalMediaController extends FrameLayout {
         mPrevButton = (ImageButton) v.findViewById(R.id.prev);
         mNextButton = (ImageButton) v.findViewById(R.id.next);
 
+        mReplayButton = (ImageButton) v.findViewById(R.id.replay);
+        mStopButton = (ImageButton) v.findViewById(R.id.stop);
+
         if (mTurnButton != null) {
             mTurnButton.requestFocus();
             mTurnButton.setOnClickListener(mPauseListener);
@@ -175,6 +182,18 @@ public class UniversalMediaController extends FrameLayout {
         if (mNextButton != null) {
             mNextButton.requestFocus();
             mNextButton.setOnClickListener(mNextListener);
+        }
+
+        //添加重新播放按钮的监听
+        if (mReplayButton != null){
+            mReplayButton.requestFocus();
+            mReplayButton.setOnClickListener(mReplayListener);
+        }
+
+        //添加停止播放按钮的监听
+        if (mStopButton != null){
+            mStopButton.requestFocus();
+            mStopButton.setOnClickListener(mStopListener);
         }
 
 
@@ -575,6 +594,26 @@ public class UniversalMediaController extends FrameLayout {
             if (mPlayPrevNextListener!=null){
                 mPlayPrevNextListener.next();
             }
+
+        }
+    };
+
+    //重新播放
+    private View.OnClickListener mReplayListener = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(mContext,"重新播放",Toast.LENGTH_SHORT).show();
+
+        }
+    };
+
+    //停止播放
+    private View.OnClickListener mStopListener = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(mContext,"停止播放",Toast.LENGTH_SHORT).show();
 
         }
     };
