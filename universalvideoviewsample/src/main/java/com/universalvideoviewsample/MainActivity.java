@@ -226,6 +226,12 @@ public class MainActivity extends AppCompatActivity implements UniversalVideoVie
         Toast.makeText(this,"播放下一首",Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void rePlay() {
+        setVideoPath(VIDEO_LOCAL_URL);
+        mVideoView.start();
+    }
+
 
     //获取某一目录下文件集合的方法
     public String[] getFiles(String path){
@@ -243,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements UniversalVideoVie
         return -1;
     }
 
-
+    //设置播放路径
     void setVideoPath(String path){
         //关于权限
         if (ContextCompat.checkSelfPermission(MainActivity.this,

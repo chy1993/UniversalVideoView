@@ -604,7 +604,9 @@ public class UniversalMediaController extends FrameLayout {
         @Override
         public void onClick(View v) {
             Toast.makeText(mContext,"重新播放",Toast.LENGTH_SHORT).show();
-
+            if (mPlayPrevNextListener!=null){
+                mPlayPrevNextListener.rePlay();
+            }
         }
     };
 
@@ -613,7 +615,11 @@ public class UniversalMediaController extends FrameLayout {
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(mContext,"停止播放",Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext,"结束播放",Toast.LENGTH_SHORT).show();
+
+            if (mPlayer != null) {
+                mPlayer.closePlayer();
+            }
 
         }
     };
@@ -883,11 +889,13 @@ public class UniversalMediaController extends FrameLayout {
     }
 
     /**
-     * 未外界提供上一首 下一首 具体实现的回调接口
+     * 未外界提供上一首 下一首  重新播放具体实现的回调接口
      */
     public interface PlayPrevNextListener {
         void prev();
         void next();
+
+        void rePlay();
     }
 
 

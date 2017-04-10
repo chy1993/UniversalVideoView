@@ -809,7 +809,8 @@ public class UniversalVideoView extends SurfaceView
 
     @Override
     public void closePlayer() {
-        release(true);
+//        release(true);
+        stopPlayback();
     }
 
     @Override
