@@ -12,12 +12,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="50dp"
-        android:background="@mipmap/max_player_bg">
+       >
 
         <FrameLayout
+            android:layout_centerInParent="true"
             android:id="@+id/video_layout"
-            android:layout_width="fill_parent"
+            android:layout_width="700dp"
             android:layout_height="455dp"
             android:background="@android:color/black">
 
