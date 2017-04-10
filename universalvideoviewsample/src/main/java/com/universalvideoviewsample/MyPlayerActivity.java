@@ -21,6 +21,7 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
         UniversalMediaController.PlayPrevNextListener{
     private static final int MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 1;            //运行时权限
     private static final String VIDEO_LOCAL_URL = "/sdcard/Download/1.mp4";        //默认播放的视频路径
+    private static final String SEEK_POSITION_KEY = "SEEK_POSITION_KEY";
 
 
     UniversalVideoView mVideoView;                                   //播放器
@@ -91,7 +92,8 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
             @Override
             public void run() {
                 int width = mVideoLayout.getWidth();
-                cachedHeight = (int) (width * 405f / 720f);
+//                cachedHeight = (int) (width * 405f / 720f);
+                cachedHeight = mVideoLayout.getHeight();
                 ViewGroup.LayoutParams videoLayoutParams = mVideoLayout.getLayoutParams();
                 videoLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
                 videoLayoutParams.height = cachedHeight;
@@ -140,10 +142,54 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
         return -1;
     }
 
+    /**
+     * titleBar切换
+     * @param show
+     */
+    private void switchTitleBar(boolean show) {
+        android.support.v7.app.ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            if (show) {
+                supportActionBar.show();
+            } else {
+                supportActionBar.hide();
+            }
+        }
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SEEK_POSITION_KEY, mSeekPosition);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle outState) {
+        super.onRestoreInstanceState(outState);
+        mSeekPosition = outState.getInt(SEEK_POSITION_KEY);
+    }
+
 
     @Override
     public void onScaleChange(boolean isFullscreen) {
+        this.isFullscreen = isFullscreen;
+        if (isFullscreen) {
+            ViewGroup.LayoutParams layoutParams = mVideoLayout.getLayoutParams();
+            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            mVideoLayout.setLayoutParams(layoutParams);
+            mStartButton.setVisibility(View.GONE);
 
+        } else {
+            ViewGroup.LayoutParams layoutParams = mVideoLayout.getLayoutParams();
+            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            layoutParams.height = this.cachedHeight;
+            mVideoLayout.setLayoutParams(layoutParams);
+            mStartButton.setVisibility(View.VISIBLE);
+        }
+
+        switchTitleBar(!isFullscreen);
     }
 
     @Override
@@ -184,5 +230,30 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
     @Override
     public void rePlay() {
 
+    }
+
+
+    /**
+     * 失去焦点时记录当前播放的位置
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mVideoView != null && mVideoView.isPlaying()) {
+            mSeekPosition = mVideoView.getCurrentPosition();
+            mVideoView.pause();
+        }
+    }
+
+    /**
+     * 返回键的作用
+     */
+    @Override
+    public void onBackPressed() {
+        if (this.isFullscreen) {
+            mVideoView.setFullscreen(false);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

@@ -26,8 +26,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_gravity="center"
-                app:uvv_autoRotation="true"
-                app:uvv_fitXY="false" />
+                app:uvv_autoRotation="false"
+                app:uvv_fitXY="true" />
 
             <com.universalvideoview.UniversalMediaController
                 android:id="@+id/media_controller"
