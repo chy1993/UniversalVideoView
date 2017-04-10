@@ -33,7 +33,6 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
-        android:background="@color/uvv_titlebar_bg"
         android:orientation="horizontal">
 
         <ImageButton
@@ -78,18 +77,36 @@
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/uvv_titlebar_bg"
         android:gravity="center_vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/llplay"
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
-            <ImageButton android:id="@+id/prev" style="@android:style/MediaButton.Previous" />
-            <ImageButton android:id="@+id/turn_button" style="@android:style/MediaButton.Play" />
-            <ImageButton android:id="@+id/next" style="@android:style/MediaButton.Next" />
 
-        </LinearLayout>
+            <ImageButton
+                android:id="@+id/prev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/fullscreen_left_press"
+             />
+
+            <ImageButton
+                android:layout_toRightOf="@id/prev"
+                android:id="@+id/turn_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/fullscreen_play_press"
+                />
+            <ImageButton
+                android:background="@drawable/fullscreen_right_press"
+                android:layout_toRightOf="@id/turn_button"
+                android:id="@+id/next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+               />
+
+        </RelativeLayout>
 
 
         <ImageButton
@@ -99,11 +116,11 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="3dp"
-            android:background="#00000000"
+            android:background="@drawable/fullscreen_maxsize_press"
             android:padding="10dp"
             android:scaleType="fitCenter"
             android:visibility="visible"
-            android:src="@drawable/uvv_player_scale_btn" />
+           />
 
 
         <LinearLayout
@@ -114,16 +131,16 @@
             android:layout_height="match_parent">
             <ImageView
                 android:id="@+id/ivVolume"
-                android:src="@drawable/max_volume_bg"
+                android:background="@drawable/fullscreen_volume_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <SeekBar
                 android:id="@+id/sbVolumeSlider"
-                android:background="@drawable/max_volume_slider_bg"
+                android:background="@drawable/fullscreen_volume_slider_bg"
                 android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
 
 
@@ -137,22 +154,22 @@
             android:layout_height="match_parent">
 
             <ImageButton
+                android:background="@drawable/fullscreen_replay_press"
                 android:id="@+id/replay"
-                android:src="@drawable/max_replay"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"/>
 
 
             <ImageButton
+                android:background="@drawable/fullscreen_stop_press"
                 android:id="@+id/stop"
-                android:src="@drawable/max_stop"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"/>
 
 
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/llController"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -160,7 +177,7 @@
             android:layout_toLeftOf="@id/llReplayAndStop"
             android:layout_toRightOf="@id/llplay"
             android:gravity="center_horizontal"
-            android:orientation="horizontal">
+           >
 
             <TextView
                 android:id="@+id/has_played"
@@ -169,12 +186,23 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
                 android:text="00:00"
-                android:textColor="@color/uvv_light_gray" />
+                android:textColor="#0000ff" />
 
-            <SeekBar
-                android:id="@+id/seekbar"
+            <TextView
+                android:layout_toRightOf="@id/has_played"
+                android:id="@+id/duration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:text="/00:00"
+                android:textColor="#0000ff" />
+
+            <SeekBar
+                android:background="@drawable/fullscreen_slider_bg"
+                android:id="@+id/seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:indeterminateDrawable="@drawable/uvv_star_play_progress_seek"
@@ -186,15 +214,8 @@
                 android:thumb="@drawable/uvv_seek_dot"
                 android:thumbOffset="10dip" />
 
-            <TextView
-                android:id="@+id/duration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="10dp"
-                android:text="00:00"
-                android:textColor="@color/uvv_light_gray" />
-        </LinearLayout>
+
+        </RelativeLayout>
     </RelativeLayout>
 
 
