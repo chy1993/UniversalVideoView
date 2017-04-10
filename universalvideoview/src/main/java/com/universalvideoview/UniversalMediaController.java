@@ -656,19 +656,19 @@ public class UniversalMediaController extends FrameLayout {
 
     private void updatePausePlay() {
         if (mPlayer != null && mPlayer.isPlaying()) {
-            mTurnButton.setImageResource(R.drawable.uvv_stop_btn);
+            mTurnButton.setImageResource(R.drawable.fullscreen_play_press);
 //            mCenterPlayButton.setVisibility(GONE);
         } else {
-            mTurnButton.setImageResource(R.drawable.uvv_player_player_btn);
+            mTurnButton.setImageResource(R.drawable.fullscreen_pause_press);
 //            mCenterPlayButton.setVisibility(VISIBLE);
         }
     }
 
     void updateScaleButton() {
         if (mIsFullScreen) {
-            mScaleButton.setImageResource(R.drawable.uvv_star_zoom_in);
+//            mScaleButton.setImageResource(R.drawable.fullscreen_maxsize_press);
         } else {
-            mScaleButton.setImageResource(R.drawable.uvv_player_scale_btn);
+//            mScaleButton.setImageResource(R.drawable.fullscreen_maxsize_press);
         }
     }
 
@@ -752,10 +752,6 @@ public class UniversalMediaController extends FrameLayout {
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//            audiomanage.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
-//            currentVolume = audiomanage.getStreamVolume(AudioManager.STREAM_MUSIC);  //获取当前值
-//            seekBar.setProgress(currentVolume);
-
 
             AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
             //系统音量和媒体音量同时更新
