@@ -33,23 +33,31 @@
                 android:id="@+id/media_controller"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:visibility="gone"
                 app:uvv_scalable="true" />
 
         </FrameLayout>
 
 
         <LinearLayout
-            android:layout_marginTop="5dp"
-            android:layout_below="@+id/video_layout"
             android:layout_width="match_parent"
-            android:layout_height="80dp">
-
+            android:layout_height="80dp"
+            android:layout_below="@+id/video_layout"
+            android:layout_marginTop="5dp">
 
 
         </LinearLayout>
 
 
     </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/btStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/uvv_green"
+        android:text="开始播放" />
 
 </RelativeLayout>
