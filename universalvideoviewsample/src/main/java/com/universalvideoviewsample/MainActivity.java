@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements UniversalVideoVie
     private int cachedHeight;
     private boolean isFullscreen;
 
+    private String mCurrentFileName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements UniversalVideoVie
 
 
         setVideoPath(VIDEO_LOCAL_URL);
+
         mStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements UniversalVideoVie
                     mVideoView.seekTo(mSeekPosition);
                 }
                 mVideoView.start();
-                mMediaController.setTitle("Big Buck Bunny");
+                mMediaController.setTitle("" + findFileName(getFiles("/sdcard/Download"),"KLSW_1.mp4"));
             }
         });
 
@@ -214,9 +217,17 @@ public class MainActivity extends AppCompatActivity implements UniversalVideoVie
         Toast.makeText(this,"播放上一首",Toast.LENGTH_SHORT).show();
 
         String[] a = getFiles("/sdcard/Download");
+
+        for (int i=0; i<a.length; i++){
+            Log.i("1111111111111",a[i]);
+        }
+
+
         int currentPosition =  findFileName(a,"KLSW_1.mp4");
 
-        setVideoPath(VIDEO_LOCAL_URL);
+        if (currentPosition>0){
+            setVideoPath("/sdcard/Download/" +  a[currentPosition-1]);
+        }
         mVideoView.start();
     }
 
@@ -224,6 +235,9 @@ public class MainActivity extends AppCompatActivity implements UniversalVideoVie
     @Override
     public void next() {
         Toast.makeText(this,"播放下一首",Toast.LENGTH_SHORT).show();
+        String[] a = getFiles("/sdcard/Download");
+
+
     }
 
     @Override
