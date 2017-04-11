@@ -829,7 +829,8 @@ public class UniversalVideoView extends SurfaceView
         if (fullscreen) {
             if (mVideoViewLayoutWidth == 0 && mVideoViewLayoutHeight == 0) {
                 ViewGroup.LayoutParams params = getLayoutParams();
-                mVideoViewLayoutWidth = params.width;//保存全屏之前的参数
+                //保存全屏之前的参数
+                mVideoViewLayoutWidth = params.width;
                 mVideoViewLayoutHeight = params.height;
             }
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);

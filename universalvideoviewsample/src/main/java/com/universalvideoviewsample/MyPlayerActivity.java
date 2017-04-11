@@ -34,6 +34,7 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
 
     private int mSeekPosition;                                       //视频播放到的位置
     private int cachedHeight;                                        //播放视频部分的高度
+    private int cacheWidth;                                          //播放视频部分的宽度
     private boolean isFullscreen;                                    //是否全屏
 
     private String[]  files;                                          //文件名集合
@@ -93,7 +94,6 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
 //        });
     }
 
-
     /**
      * 设置视频区域大小
      */
@@ -101,11 +101,12 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
         mVideoLayout.post(new Runnable() {
             @Override
             public void run() {
-                int width = mVideoLayout.getWidth();
+                 cacheWidth = mVideoLayout.getWidth();
 //                cachedHeight = (int) (width * 405f / 720f);
                 cachedHeight = mVideoLayout.getHeight();
                 ViewGroup.LayoutParams videoLayoutParams = mVideoLayout.getLayoutParams();
-                videoLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+//                videoLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                videoLayoutParams.width = cacheWidth;
                 videoLayoutParams.height = cachedHeight;
                 mVideoLayout.setLayoutParams(videoLayoutParams);
             }
@@ -177,7 +178,6 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
 
     }
 
-
     /**
      * 根据路径得到文件名
      * 这里路径名就是“/sdcard/Download/*”
@@ -194,7 +194,6 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
     public String getPlayPath(String fileName){
         return "/sdcard/Download/" + fileName;
     }
-
 
     /**
      * titleBar切换
@@ -237,7 +236,7 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
 
         } else {
             ViewGroup.LayoutParams layoutParams = mVideoLayout.getLayoutParams();
-            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            layoutParams.width = this.cacheWidth;
             layoutParams.height = this.cachedHeight;
             mVideoLayout.setLayoutParams(layoutParams);
             mStartButton.setVisibility(View.VISIBLE);
@@ -267,10 +266,6 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
     }
 
 
-
-
-
-
     @Override
     public void prev() {
         String path;
@@ -283,8 +278,6 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
             mVideoView.start();
             mMediaController.setTitle(getFileName(files,mCurrentFilePosition));
         }
-
-
 
     }
 
@@ -333,9 +326,6 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
             super.onBackPressed();
         }
     }
-
-
-
 
 
 }

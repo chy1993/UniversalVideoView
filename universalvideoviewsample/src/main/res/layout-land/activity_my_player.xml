@@ -11,14 +11,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-       >
+        android:layout_height="match_parent">
 
         <FrameLayout
-            android:layout_centerInParent="true"
             android:id="@+id/video_layout"
-            android:layout_width="700dp"
+            android:layout_width="800dp"
             android:layout_height="455dp"
+            android:layout_centerInParent="true"
             android:background="@android:color/black">
 
             <com.universalvideoview.UniversalVideoView
@@ -38,14 +37,148 @@
         </FrameLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_below="@+id/video_layout"
-            android:layout_marginTop="5dp">
+        <RelativeLayout
+            android:id="@+id/control_layout"
+            android:layout_width="800dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/video_layout"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical">
+
+            <RelativeLayout
+                android:id="@+id/rlPlayController"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:id="@+id/prev"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/fullscreen_left_press" />
+
+                <ImageButton
+                    android:id="@+id/turn_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/prev"
+                    android:background="@drawable/fullscreen_play_press" />
+
+                <ImageButton
+                    android:id="@+id/next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/turn_button"
+                    android:background="@drawable/fullscreen_right_press" />
+
+            </RelativeLayout>
 
 
-        </LinearLayout>
+            <ImageButton
+                android:id="@+id/scale_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="3dp"
+                android:background="@drawable/fullscreen_maxsize_press"
+                android:padding="10dp"
+                android:scaleType="fitCenter"
+                android:visibility="visible" />
+
+
+            <LinearLayout
+                android:id="@+id/llVolume"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_toLeftOf="@id/scale_button">
+
+                <ImageView
+                    android:id="@+id/ivVolume"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/fullscreen_volume_icon" />
+
+                <SeekBar
+                    android:id="@+id/sbVolumeSlider"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/fullscreen_volume_slider_bg" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llReplayAndStop"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@id/llVolume"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/replay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/fullscreen_replay_press" />
+
+
+                <ImageButton
+                    android:id="@+id/stop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/fullscreen_stop_press" />
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/llController"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_toLeftOf="@id/llReplayAndStop"
+                android:layout_toRightOf="@id/rlPlayController"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/has_played"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:text="00:00"
+                    android:textColor="#0000ff" />
+
+                <TextView
+                    android:id="@+id/duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:layout_toRightOf="@id/has_played"
+                    android:text="/00:00"
+                    android:textColor="#0000ff" />
+
+                <SeekBar
+                    android:id="@+id/seekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/fullscreen_slider_bg"
+                    android:indeterminateDrawable="@drawable/uvv_star_play_progress_seek"
+                    android:maxHeight="2dp"
+                    android:minHeight="2dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:progressDrawable="@drawable/uvv_star_play_progress_seek"
+                    android:thumb="@drawable/uvv_seek_dot"
+                    android:thumbOffset="10dip" />
+
+
+            </RelativeLayout>
+        </RelativeLayout>
 
 
     </RelativeLayout>
@@ -58,6 +191,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:background="@color/uvv_green"
-        android:text="开始播放" />
+        android:text="开始播放"
+        android:visibility="gone" />
 
 </RelativeLayout>
