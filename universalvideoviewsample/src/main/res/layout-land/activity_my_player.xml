@@ -133,7 +133,8 @@
             <RelativeLayout
                 android:id="@+id/llController"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="39dp"
+                android:background="#e5e5e7"
                 android:layout_gravity="center_vertical"
                 android:layout_toLeftOf="@id/llReplayAndStop"
                 android:layout_toRightOf="@id/rlPlayController"
@@ -161,10 +162,10 @@
                 <SeekBar
                     android:id="@+id/seekbar"
                     android:layout_width="match_parent"
-                    android:layout_height="39dp"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:background="#e5e5e7"
+
                     android:indeterminateDrawable="@drawable/uvv_star_play_progress_seek"
                     android:maxHeight="2dp"
                     android:minHeight="2dp"
