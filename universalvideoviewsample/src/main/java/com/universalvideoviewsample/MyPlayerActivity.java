@@ -11,6 +11,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.universalvideoview.UniversalMediaController;
 import com.universalvideoview.UniversalVideoView;
@@ -42,6 +45,18 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
     int mCurrentFilePosition;                                        //当前播放的文件在集合中的位置
 
 
+    ImageButton mAPrevButton;
+    ImageButton mATurnButton;
+    ImageButton mANextButton;
+    SeekBar     mAPlaySeekBar;
+    ImageButton mAPeplayButton;
+    ImageButton mAStopButton;
+    SeekBar     mAVolumeSeekBar;
+    ImageButton mAScaleButton;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,11 +66,48 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
         files = getFiles("/sdcard/Download");
 
         initVideoView();
-
+        initController();
         setVideoAreaSize();
+
+    }
+
+    /**
+     * 初始化非全屏状态的控制器
+     */
+    private void initController(){
+        mAPrevButton = (ImageButton) findViewById(R.id.aprev);
+        mATurnButton = (ImageButton) findViewById(R.id.aturn_button);
+        mANextButton = (ImageButton) findViewById(R.id.anext);
+        mAPlaySeekBar = (SeekBar) findViewById(R.id.aseekbar);
+        mAPeplayButton = (ImageButton) findViewById(R.id.areplay);
+        mAStopButton = (ImageButton) findViewById(R.id.astop);
+        mAVolumeSeekBar = (SeekBar) findViewById(R.id.asbVolumeSlider);
+        mAScaleButton = (ImageButton) findViewById(R.id.ascale_button);
+
+//            //播放暂停的按钮监听
+//            mATurnButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                    Toast.makeText(MyPlayerActivity.this,"111",Toast.LENGTH_SHORT).show();
+//                    mMediaController.mTurnButton.performClick();
+//                }
+//             });
+//
+//
+        //全屏按钮的监听
+        mAScaleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MyPlayerActivity.this,"222",Toast.LENGTH_SHORT).show();
+                mMediaController.mScaleButton.performClick();
+            }
+        });
 
 
     }
+
+
     /**
      * 初始化视频播放器
      */

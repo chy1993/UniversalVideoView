@@ -91,17 +91,17 @@ public class UniversalMediaController extends FrameLayout {
 
     Formatter mFormatter;
 
-    private ImageButton mTurnButton;    // 开启暂停按钮
+    public ImageButton mTurnButton;    // 开启暂停按钮
 
-    private ImageButton mScaleButton;   //全屏按钮
+    public ImageButton mScaleButton;   //全屏按钮
 
-    private ImageButton mPrevButton;    //上一视频
+    public ImageButton mPrevButton;    //上一视频
 
-    private ImageButton mNextButton;    //下一视频
+    public ImageButton mNextButton;    //下一视频
 
-    private ImageButton mReplayButton;   //重新播放
+    public ImageButton mReplayButton;   //重新播放
 
-    private ImageButton mStopButton;     //停止播放
+    public ImageButton mStopButton;     //停止播放
 
     private View mBackButton;           // 返回按钮
 
