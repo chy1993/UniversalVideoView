@@ -36,14 +36,24 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
     private int cachedHeight;                                        //播放视频部分的高度
     private boolean isFullscreen;                                    //是否全屏
 
+    private String[]  files;                                          //文件名集合
+
+    int mCurrentFilePosition;                                        //当前播放的文件在集合中的位置
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_player);
 
+        //获取该目录下所有文件名集合
+        files = getFiles("/sdcard/Download");
+
         initVideoView();
 
         setVideoAreaSize();
+
+
     }
     /**
      * 初始化视频播放器
@@ -116,6 +126,8 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
                     MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE);
         } else {
             mVideoView.setVideoPath(path);
+            mCurrentFilePosition = getFilePosition(files, getNameFormPath(path));
+
             mVideoView.requestFocus();
         }
     }
@@ -133,7 +145,7 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
     /**
      * 在String[]中 查找某一文件名 若找到返回其位置，否则返回-1
      */
-    public int findFileName(String[] files ,String fileName){
+    public int getFilePosition(String[] files ,String fileName){
         for (int i=0; i<files.length; i++){
             if (fileName.equals(files[i])){
                 return i;
@@ -141,6 +153,48 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
         }
         return -1;
     }
+
+    /**
+     * 根据文件在集合中的位置 获取文件名
+     * @param files
+     * @param position
+     * @return
+     */
+    public String getFileName(String[] files ,int position){
+        if (files == null || files.length == 0){
+            return null;
+        }
+
+        if (position < 0){
+            return null;
+        }else {
+            if (position < files.length){
+                return files[position];
+            }else {
+                return null;
+            }
+        }
+
+    }
+
+
+    /**
+     * 根据路径得到文件名
+     * 这里路径名就是“/sdcard/Download/*”
+     */
+    public String getNameFormPath(String path){
+        String[] a  =   path.split("/");
+        return a[a.length-1];
+    }
+
+    /**
+     * 根据文件名得到播放路径
+     * 这里路径名就是“/sdcard/Download/*”
+     */
+    public String getPlayPath(String fileName){
+        return "/sdcard/Download/" + fileName;
+    }
+
 
     /**
      * titleBar切换
@@ -219,17 +273,40 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
 
     @Override
     public void prev() {
+        String path;
+
+        if (mCurrentFilePosition > 0){
+            mCurrentFilePosition = mCurrentFilePosition-1;
+
+            path = getPlayPath(getFileName(files,mCurrentFilePosition));
+            setVideoPath(path);
+            mVideoView.start();
+            mMediaController.setTitle(getFileName(files,mCurrentFilePosition));
+        }
+
+
 
     }
 
     @Override
     public void next() {
+        String path;
+        if (mCurrentFilePosition < files.length-1){
+            mCurrentFilePosition = mCurrentFilePosition +1;
+            path = getPlayPath(getFileName(files,mCurrentFilePosition));
+            setVideoPath(path);
+            mVideoView.start();
+            mMediaController.setTitle(getFileName(files,mCurrentFilePosition));
+        }
 
     }
 
     @Override
     public void rePlay() {
-
+        String path = getPlayPath(getFileName(files,mCurrentFilePosition));
+        setVideoPath(path);
+        mVideoView.start();
+        mMediaController.setTitle(getFileName(files,mCurrentFilePosition));
     }
 
 
@@ -256,4 +333,9 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
             super.onBackPressed();
         }
     }
+
+
+
+
+
 }
