@@ -92,17 +92,17 @@
                 android:layout_toLeftOf="@id/scale_button">
 
                 <ImageView
+                    android:background="#e5e5e7"
                     android:id="@+id/ivVolume"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@mipmap/max_volume_bg" />
+                    android:src="@mipmap/max_volume_bg" />
 
                 <SeekBar
                     android:id="@+id/sbVolumeSlider"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:background="@mipmap/max_volume_slider_bg" />
+                    android:layout_height="39dp"
+                    android:background="#e5e5e7" />
 
 
             </LinearLayout>
@@ -161,10 +161,10 @@
                 <SeekBar
                     android:id="@+id/seekbar"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="39dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:background="@mipmap/max_slider_bg"
+                    android:background="#e5e5e7"
                     android:indeterminateDrawable="@drawable/uvv_star_play_progress_seek"
                     android:maxHeight="2dp"
                     android:minHeight="2dp"
