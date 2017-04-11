@@ -740,8 +740,6 @@ public class UniversalMediaController extends FrameLayout {
 
         public void onProgressChanged(SeekBar bar, int progress, boolean fromuser) {
             if (mPlayer == null || !fromuser) {
-                // We're not interested in programmatically generated changes to
-                // the progress bar's position.
                 return;
             }
 
