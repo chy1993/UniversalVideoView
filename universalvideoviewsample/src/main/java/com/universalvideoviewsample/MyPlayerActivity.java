@@ -84,25 +84,41 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
         mAVolumeSeekBar = (SeekBar) findViewById(R.id.asbVolumeSlider);
         mAScaleButton = (ImageButton) findViewById(R.id.ascale_button);
 
-//            //播放暂停的按钮监听
-//            mATurnButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                    Toast.makeText(MyPlayerActivity.this,"111",Toast.LENGTH_SHORT).show();
-//                    mMediaController.mTurnButton.performClick();
-//                }
-//             });
-//
-//
+
+        //播放前一首
+        mAPrevButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMediaController.mPrevButton.performClick();
+            }
+        });
+
+
+        //播放暂停的按钮监听
+        mATurnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMediaController.mTurnButton.performClick();
+            }
+         });
+
+
+        mANextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMediaController.mNextButton.performClick();
+            }
+        });
+
+
         //全屏按钮的监听
         mAScaleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MyPlayerActivity.this,"222",Toast.LENGTH_SHORT).show();
                 mMediaController.mScaleButton.performClick();
             }
         });
+
 
 
     }
