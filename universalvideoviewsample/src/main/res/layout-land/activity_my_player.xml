@@ -54,21 +54,21 @@
                     android:id="@+id/prev"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/fullscreen_left_press" />
+                    android:background="@mipmap/max_left" />
 
                 <ImageButton
                     android:id="@+id/turn_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/prev"
-                    android:background="@drawable/fullscreen_play_press" />
+                    android:background="@mipmap/max_play" />
 
                 <ImageButton
                     android:id="@+id/next"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/turn_button"
-                    android:background="@drawable/fullscreen_right_press" />
+                    android:background="@mipmap/max_right" />
 
             </RelativeLayout>
 
@@ -78,9 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="3dp"
-                android:background="@drawable/fullscreen_maxsize_press"
+                android:background="@mipmap/max_fullscreen"
                 android:padding="10dp"
                 android:scaleType="fitCenter"
                 android:visibility="visible" />
@@ -97,14 +95,14 @@
                     android:id="@+id/ivVolume"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/fullscreen_volume_icon" />
+                    android:background="@mipmap/max_volume_bg" />
 
                 <SeekBar
                     android:id="@+id/sbVolumeSlider"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:background="@drawable/fullscreen_volume_slider_bg" />
+                    android:background="@mipmap/max_volume_slider_bg" />
 
 
             </LinearLayout>
@@ -120,14 +118,14 @@
                     android:id="@+id/replay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/fullscreen_replay_press" />
+                    android:background="@mipmap/max_replay" />
 
 
                 <ImageButton
                     android:id="@+id/stop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/fullscreen_stop_press" />
+                    android:background="@mipmap/max_stop" />
 
 
             </LinearLayout>
@@ -166,7 +164,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:background="@drawable/fullscreen_slider_bg"
+                    android:background="@mipmap/max_slider_bg"
                     android:indeterminateDrawable="@drawable/uvv_star_play_progress_seek"
                     android:maxHeight="2dp"
                     android:minHeight="2dp"
