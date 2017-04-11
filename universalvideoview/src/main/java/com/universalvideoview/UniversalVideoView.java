@@ -815,9 +815,10 @@ public class UniversalVideoView extends SurfaceView
 
     @Override
     public void setFullscreen(boolean fullscreen) {
-        int screenOrientation = fullscreen ? ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-        setFullscreen(fullscreen, screenOrientation);
+        //不需要横竖屏切换
+//        int screenOrientation = fullscreen ? ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+//                : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        setFullscreen(fullscreen, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
 
     @Override

@@ -196,7 +196,7 @@ public class UniversalMediaController extends FrameLayout {
             mStopButton.setOnClickListener(mStopListener);
         }
 
-
+        //控制全屏与否的属性 以及监听
         if (mScalable) {
             if (mScaleButton != null) {
                 mScaleButton.setVisibility(VISIBLE);
@@ -654,6 +654,7 @@ public class UniversalMediaController extends FrameLayout {
         }
     };
 
+
     private void updatePausePlay() {
         if (mPlayer != null && mPlayer.isPlaying()) {
             mTurnButton.setImageResource(R.drawable.fullscreen_play_press);
@@ -664,6 +665,9 @@ public class UniversalMediaController extends FrameLayout {
         }
     }
 
+    /**
+     * 更新全屏切换的按钮
+     */
     void updateScaleButton() {
         if (mIsFullScreen) {
 //            mScaleButton.setImageResource(R.drawable.fullscreen_maxsize_press);
@@ -678,6 +682,10 @@ public class UniversalMediaController extends FrameLayout {
         updateBackButton();
     }
 
+
+    /**
+     * 更新返回的按钮
+     */
     void updateBackButton() {
         mBackButton.setVisibility(mIsFullScreen ? View.VISIBLE : View.INVISIBLE);
     }
