@@ -208,6 +208,7 @@ public class UniversalMediaController extends FrameLayout {
             }
         }
 
+        //暂停时屏幕中央的播放按钮
         if (mCenterPlayButton != null) {//重新开始播放
             mCenterPlayButton.setOnClickListener(mCenterPlayListener);
         }
@@ -289,7 +290,8 @@ public class UniversalMediaController extends FrameLayout {
      * @param timeout The timeout in milliseconds. Use 0 to show
      *                the controller until hide() is called.
      */
-    public void show(int timeout) {//只负责上下两条bar的显示,不负责中央loading,error,playBtn的显示.
+    public void show(int timeout) {
+        //只负责上下两条bar的显示,不负责中央loading,error,playBtn的显示.
         if (!mShowing) {
             setProgress();
             if (mTurnButton != null) {
@@ -327,8 +329,11 @@ public class UniversalMediaController extends FrameLayout {
         return mShowing;
     }
 
-
-    public void hide() {//只负责上下两条bar的隐藏,不负责中央loading,error,playBtn的隐藏
+    /**
+     * 隐藏控制器
+     */
+    public void hide() {
+        //只负责上下两条bar的隐藏,不负责中央loading,error,playBtn的隐藏
         if (mShowing) {
             mHandler.removeMessages(SHOW_PROGRESS);
             mTitleLayout.setVisibility(GONE);
@@ -655,13 +660,16 @@ public class UniversalMediaController extends FrameLayout {
     };
 
 
+    /**
+     * 播放暂停按钮状态的切换
+     */
     private void updatePausePlay() {
         if (mPlayer != null && mPlayer.isPlaying()) {
             mTurnButton.setImageResource(R.drawable.fullscreen_play_press);
-//            mCenterPlayButton.setVisibility(GONE);
+            hideCenterView();
         } else {
             mTurnButton.setImageResource(R.drawable.fullscreen_pause_press);
-//            mCenterPlayButton.setVisibility(VISIBLE);
+            showCenterView(R.id.center_play_btn);
         }
     }
 
@@ -676,6 +684,10 @@ public class UniversalMediaController extends FrameLayout {
         }
     }
 
+    /**
+     * 全屏按钮与返回按钮的状态切换
+     * @param isFullScreen
+     */
     void toggleButtons(boolean isFullScreen) {
         mIsFullScreen = isFullScreen;
         updateScaleButton();
@@ -694,16 +706,23 @@ public class UniversalMediaController extends FrameLayout {
         return mIsFullScreen;
     }
 
+    /**
+     * 播放器播放暂停切换
+     */
     private void doPauseResume() {
         if (mPlayer.isPlaying()) {
             mPlayer.pause();
+
+
         } else {
             mPlayer.start();
         }
         updatePausePlay();
     }
 
-    //视频播放到具体位置的seekbar监听
+    /**
+     * 视频播放到具体位置的seekbar监听
+     */
     private OnSeekBarChangeListener mSeekListener = new OnSeekBarChangeListener() {
         int newPosition = 0;
 
@@ -755,7 +774,9 @@ public class UniversalMediaController extends FrameLayout {
         }
     };
 
-    //音量控制的seekbar监听
+    /**
+     * 音量控制的seekbar监听
+     */
     private OnSeekBarChangeListener mVolumeSeekListener = new OnSeekBarChangeListener(){
 
         @Override
