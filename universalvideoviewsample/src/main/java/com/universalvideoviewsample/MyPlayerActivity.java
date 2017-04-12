@@ -1,7 +1,12 @@
 package com.universalvideoviewsample;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
@@ -47,6 +52,8 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
     int mCurrentFilePosition;                                        //当前播放的文件在集合中的位置
 
     boolean mDragging = false;                                       //进度条是否拖动
+
+    private int maxVolume, currentVolume;           //音量最大值与当前值
 
 
     ImageButton mAPrevButton;
@@ -179,6 +186,28 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
                 mHandler.sendEmptyMessage(UniversalMediaController.SHOW_PROGRESS);
             }
         });
+
+
+        //音量控制的seekbar
+        mAVolumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+                //系统音量和媒体音量同时更新
+                audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, progress, 0);
+                audioManager.setStreamVolume(3, progress, 0);//  3 代表  AudioManager.STREAM_MUSIC
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
 
@@ -217,6 +246,19 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
 //            public void onCompletion(MediaPlayer mp) {
 //            }
 //        });
+    }
+
+
+    /**
+     * 初始化音量控制
+     * @param seekBar
+     */
+    private void initVolume(SeekBar seekBar){
+        AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);//获取媒体系统服务
+        seekBar.setMax(100); //设置最大音量
+        currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);  //获取当前值
+        seekBar.setProgress(currentVolume);// 当前的媒体音量
+        myRegisterReceiver();//注册同步更新的广播
     }
 
     /**
@@ -502,5 +544,31 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
         }
     };
 
+
+    /**
+     * 注册当音量发生变化时接收的广播
+     */
+    private void myRegisterReceiver(){
+        MyVolumeReceiver mVolumeReceiver = new MyVolumeReceiver() ;
+        IntentFilter filter = new IntentFilter() ;
+        filter.addAction("android.media.VOLUME_CHANGED_ACTION") ;
+        registerReceiver(mVolumeReceiver, filter) ;
+    }
+
+    /**
+     * 处理音量变化时的界面显示
+     * @author long
+     */
+    private class MyVolumeReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //如果音量发生变化则更改seekbar的位置
+            if(intent.getAction().equals("android.media.VOLUME_CHANGED_ACTION")){
+                AudioManager mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+                int currVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) ;// 当前的媒体音量
+                mAVolumeSeekBar.setProgress(currVolume);
+            }
+        }
+    }
 
 }
