@@ -42,9 +42,11 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
     private int cacheWidth;                                          //播放视频部分的宽度
     private boolean isFullscreen;                                    //是否全屏
 
-    private String[]  files;                                          //文件名集合
+    private String[]  files;                                         //文件名集合
 
     int mCurrentFilePosition;                                        //当前播放的文件在集合中的位置
+
+    boolean mDragging = false;                                       //进度条是否拖动
 
 
     ImageButton mAPrevButton;
@@ -112,6 +114,14 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
             }
         });
 
+        //重新播放
+        mAPeplayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rePlay();
+            }
+        });
+
 
         //全屏按钮的监听
         mAScaleButton.setOnClickListener(new View.OnClickListener() {
@@ -131,11 +141,7 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
                 if (mMediaController.mPlayer == null) {
                     return;
                 }
-//                mMediaController.show(3600000);
-                mMediaController.mDragging = true;
-                mMediaController.mHandler.removeMessages(UniversalMediaController.SHOW_PROGRESS);
-
-                mHandler.removeMessages(UniversalMediaController.SHOW_PROGRESS);
+                mDragging = true;
             }
 
             public void onProgressChanged(SeekBar bar, int progress, boolean fromuser) {
@@ -159,20 +165,11 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
 //                        mMediaController.mCurrentTime.setText(mMediaController.stringForTime(newPosition));
 //                    }
                 }
-                mMediaController.mDragging = false;
-                mMediaController.setProgress();
+                mDragging = false;
 
                 setPlayProgress();
 
                 mMediaController.updatePausePlay();
-//                mMediaController.show(UniversalMediaController.sDefaultTimeout);
-
-                // Ensure that progress is properly updated in the future,
-                // the call to show() does not guarantee this because it is a
-                // no-op if we are already showing.
-//                mMediaController.mShowing = true;
-                mMediaController.mHandler.sendEmptyMessage(UniversalMediaController.SHOW_PROGRESS);
-
 
                 mHandler.sendEmptyMessage(UniversalMediaController.SHOW_PROGRESS);
             }
@@ -262,17 +259,18 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
      * @return
      */
     public int setPlayProgress() {
-        if (mMediaController.mPlayer == null || mMediaController.mDragging) {
+        if (mMediaController.mPlayer == null || mDragging) {
             return 0;
         }
         int position = mMediaController.mPlayer.getCurrentPosition();
         int duration = mMediaController.mPlayer.getDuration();
         if (mAPlaySeekBar != null) {
-            if (duration > 0) {
+            //TODO 删了duration的>0保护
+//            if (duration > 0) {
                 // use long to avoid overflow
                 long pos = 1000L * position / duration;
                 mAPlaySeekBar.setProgress((int) pos);
-            }
+//            }
             int percent = mMediaController.mPlayer.getBufferPercentage();
             mAPlaySeekBar.setSecondaryProgress(percent * 10);
         }
@@ -493,7 +491,7 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
             switch (msg.what) {
                 case UniversalMediaController.SHOW_PROGRESS:
                     pos = setPlayProgress();
-                    if (mMediaController.mPlayer != null && mMediaController.mPlayer.isPlaying()) {
+                    if (!mDragging && mMediaController.mPlayer != null && mMediaController.mPlayer.isPlaying()) {
                         msg = obtainMessage(UniversalMediaController.SHOW_PROGRESS);
                         sendMessageDelayed(msg, 1000 - (pos % 1000));
                     }

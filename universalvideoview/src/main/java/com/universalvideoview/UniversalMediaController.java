@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.TypedArray;
 import android.media.AudioManager;
+import android.media.session.MediaController;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -25,8 +26,6 @@ import java.util.Formatter;
 import java.util.Locale;
 
 public class UniversalMediaController extends FrameLayout {
-
-
     public UniversalMediaController.MediaPlayerControl mPlayer;
 
     private PlayPrevNextListener mPlayPrevNextListener;
@@ -41,7 +40,7 @@ public class UniversalMediaController extends FrameLayout {
 
     private TextView mTitle;
 
-    public boolean mShowing = true;
+    public boolean mShowing = true;                                //控制栏是否显示
 
     public boolean mDragging;                                      //是否正在拖动
 
@@ -114,6 +113,10 @@ public class UniversalMediaController extends FrameLayout {
         init(context);
     }
 
+    /**
+     * 上一首 下一首 重新播放的监听
+     * @param mlistener
+     */
     public void setPlayPrevNextListener(PlayPrevNextListener mlistener){
         this.mPlayPrevNextListener = mlistener;
     }
@@ -583,7 +586,7 @@ public class UniversalMediaController extends FrameLayout {
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(mContext,"重新播放",Toast.LENGTH_SHORT).show();
+//            Toast.makeText(mContext,"重新播放",Toast.LENGTH_SHORT).show();
             if (mPlayPrevNextListener!=null){
                 mPlayPrevNextListener.rePlay();
             }
