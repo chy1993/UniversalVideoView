@@ -245,7 +245,7 @@ public class UniversalMediaController extends FrameLayout {
      * automatically after 3 seconds of inactivity.
      */
     public void show() {
-        show(sDefaultTimeout);
+            show(sDefaultTimeout);
     }
 
     /**
@@ -273,6 +273,10 @@ public class UniversalMediaController extends FrameLayout {
      *                the controller until hide() is called.
      */
     public void show(int timeout) {
+        if (!mIsFullScreen){
+            return;
+        }
+
         //只负责上下两条bar的显示,不负责中央loading,error,playBtn的显示.
         if (!mShowing) {
             setProgress();
@@ -610,6 +614,7 @@ public class UniversalMediaController extends FrameLayout {
 
     private View.OnClickListener mScaleListener = new View.OnClickListener() {
         public void onClick(View v) {
+            hide();
             mIsFullScreen = !mIsFullScreen;
             updateScaleButton();
             updateBackButton();
