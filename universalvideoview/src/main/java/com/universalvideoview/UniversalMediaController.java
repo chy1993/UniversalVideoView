@@ -51,9 +51,9 @@ public class UniversalMediaController extends FrameLayout {
 
     private Context mContext;
 
-    private ProgressBar mProgress;
+    public SeekBar mProgress;
 
-    private SeekBar mVolumeSeekbar;
+    public SeekBar mVolumeSeekbar;
 
     private TextView mEndTime, mCurrentTime;
 
@@ -217,13 +217,10 @@ public class UniversalMediaController extends FrameLayout {
             mBackButton.setOnClickListener(mBackListener);
         }
 
-        View bar = v.findViewById(R.id.seekbar);
-        mProgress = (ProgressBar) bar;
+        //视频播放进度控制
+         mProgress = (SeekBar) v.findViewById(R.id.seekbar);
         if (mProgress != null) {
-            if (mProgress instanceof SeekBar) {
-                SeekBar seeker = (SeekBar) mProgress;
-                seeker.setOnSeekBarChangeListener(mSeekListener);
-            }
+            mProgress.setOnSeekBarChangeListener(mSeekListener);
             mProgress.setMax(1000);
         }
 
@@ -379,6 +376,10 @@ public class UniversalMediaController extends FrameLayout {
         }
     };
 
+    /**
+     * 播放器中心的加载，暂停，错误提示的显示
+     * @param resId
+     */
     private void showCenterView(int resId) {
         if (resId == R.id.loading_layout) {
             if (loadingLayout.getVisibility() != VISIBLE) {
@@ -416,6 +417,9 @@ public class UniversalMediaController extends FrameLayout {
     }
 
 
+    /**
+     * 播放器中心的加载，暂停，错误提示的隐藏
+     */
     private void hideCenterView() {
         if (mCenterPlayButton.getVisibility() == VISIBLE) {
             mCenterPlayButton.setVisibility(GONE);
@@ -437,20 +441,7 @@ public class UniversalMediaController extends FrameLayout {
         hideLoading();
     }
 
-    private String stringForTime(int timeMs) {
-        int totalSeconds = timeMs / 1000;
 
-        int seconds = totalSeconds % 60;
-        int minutes = (totalSeconds / 60) % 60;
-        int hours = totalSeconds / 3600;
-
-        mFormatBuilder.setLength(0);
-        if (hours > 0) {
-            return mFormatter.format("%d:%02d:%02d", hours, minutes, seconds).toString();
-        } else {
-            return mFormatter.format("%02d:%02d", minutes, seconds).toString();
-        }
-    }
 
     //seekbar与播放器相联系的地方
     private int setProgress() {
@@ -712,8 +703,6 @@ public class UniversalMediaController extends FrameLayout {
     private void doPauseResume() {
         if (mPlayer.isPlaying()) {
             mPlayer.pause();
-
-
         } else {
             mPlayer.start();
         }
@@ -945,6 +934,22 @@ public class UniversalMediaController extends FrameLayout {
                 int currVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) ;// 当前的媒体音量
                 mVolumeSeekbar.setProgress(currVolume);
             }
+        }
+    }
+
+
+    private String stringForTime(int timeMs) {
+        int totalSeconds = timeMs / 1000;
+
+        int seconds = totalSeconds % 60;
+        int minutes = (totalSeconds / 60) % 60;
+        int hours = totalSeconds / 3600;
+
+        mFormatBuilder.setLength(0);
+        if (hours > 0) {
+            return mFormatter.format("%d:%02d:%02d", hours, minutes, seconds).toString();
+        } else {
+            return mFormatter.format("%02d:%02d", minutes, seconds).toString();
         }
     }
 
