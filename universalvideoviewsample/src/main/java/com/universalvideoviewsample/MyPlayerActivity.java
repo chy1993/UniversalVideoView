@@ -429,7 +429,6 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
             mVideoView.start();
             mMediaController.setTitle(getFileName(files,mCurrentFilePosition));
 
-            mHandler.sendEmptyMessage(UniversalMediaController.SHOW_PROGRESS);
         }
 
     }
@@ -443,8 +442,6 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
             setVideoPath(path);
             mVideoView.start();
             mMediaController.setTitle(getFileName(files,mCurrentFilePosition));
-
-            mHandler.sendEmptyMessage(UniversalMediaController.SHOW_PROGRESS);
         }
 
     }
@@ -456,7 +453,6 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
         mVideoView.start();
         mMediaController.setTitle(getFileName(files,mCurrentFilePosition));
 
-        mHandler.sendEmptyMessage(UniversalMediaController.SHOW_PROGRESS);
     }
 
 
