@@ -190,6 +190,6 @@
         android:layout_centerHorizontal="true"
         android:background="@color/uvv_green"
         android:text="开始播放"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
 </RelativeLayout>

@@ -201,6 +201,7 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
                 }
                 mVideoView.start();
                 mMediaController.setTitle("1.mp4");
+                mHandler.sendEmptyMessage(UniversalMediaController.SHOW_PROGRESS);
             }
         });
 
