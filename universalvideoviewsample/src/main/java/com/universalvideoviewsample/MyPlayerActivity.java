@@ -3,6 +3,8 @@ package com.universalvideoviewsample;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -102,7 +104,7 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
             }
          });
 
-
+        //播放下一首
         mANextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,8 +121,62 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
             }
         });
 
+        //播放进度的seekbar
+        mAPlaySeekBar.setMax(1000);
+        mAPlaySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int newPosition = 0;
+            boolean change = false;
+
+            public void onStartTrackingTouch(SeekBar bar) {
+                if (mMediaController.mPlayer == null) {
+                    return;
+                }
+//                mMediaController.show(3600000);
+                mMediaController.mDragging = true;
+                mMediaController.mHandler.removeMessages(UniversalMediaController.SHOW_PROGRESS);
+
+                mHandler.removeMessages(UniversalMediaController.SHOW_PROGRESS);
+            }
+
+            public void onProgressChanged(SeekBar bar, int progress, boolean fromuser) {
+                if (mMediaController.mPlayer == null || !fromuser) {
+                    return;
+                }
+
+                long duration = mMediaController.mPlayer.getDuration();
+                long newposition = (duration * progress) / 1000L;
+                newPosition = (int) newposition;
+                change = true;
+            }
+
+            public void onStopTrackingTouch(SeekBar bar) {
+                if (mMediaController.mPlayer == null) {
+                    return;
+                }
+                if (change) {
+                    mMediaController.mPlayer.seekTo(newPosition);
+//                    if (mMediaController.mCurrentTime != null) {
+//                        mMediaController.mCurrentTime.setText(mMediaController.stringForTime(newPosition));
+//                    }
+                }
+                mMediaController.mDragging = false;
+                mMediaController.setProgress();
+
+                setPlayProgress();
+
+                mMediaController.updatePausePlay();
+//                mMediaController.show(UniversalMediaController.sDefaultTimeout);
+
+                // Ensure that progress is properly updated in the future,
+                // the call to show() does not guarantee this because it is a
+                // no-op if we are already showing.
+//                mMediaController.mShowing = true;
+                mMediaController.mHandler.sendEmptyMessage(UniversalMediaController.SHOW_PROGRESS);
 
 
+                mHandler.sendEmptyMessage(UniversalMediaController.SHOW_PROGRESS);
+            }
+        });
     }
 
 
@@ -137,8 +193,6 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
         mVideoView.setVideoViewCallback(this);
 
         mVideoView.setMediaController(mMediaController);
-
-
         setVideoPath(VIDEO_LOCAL_URL);
 
         //播放默认视频的按钮点击事件
@@ -199,6 +253,36 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
 
             mVideoView.requestFocus();
         }
+
+    }
+
+
+    /**
+     *  根据视频播放进度设置mAPlaySeekBar的进度
+     * @return
+     */
+    public int setPlayProgress() {
+        if (mMediaController.mPlayer == null || mMediaController.mDragging) {
+            return 0;
+        }
+        int position = mMediaController.mPlayer.getCurrentPosition();
+        int duration = mMediaController.mPlayer.getDuration();
+        if (mAPlaySeekBar != null) {
+            if (duration > 0) {
+                // use long to avoid overflow
+                long pos = 1000L * position / duration;
+                mAPlaySeekBar.setProgress((int) pos);
+            }
+            int percent = mMediaController.mPlayer.getBufferPercentage();
+            mAPlaySeekBar.setSecondaryProgress(percent * 10);
+        }
+
+//        if (mMediaController.mEndTime != null)
+//            mMediaController.mEndTime.setText(mMediaController.stringForTime(duration));
+//        if (mMediaController.mCurrentTime != null)
+//            mMediaController.mCurrentTime.setText(mMediaController.stringForTime(position));
+
+        return position;
     }
 
     /**
@@ -345,6 +429,8 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
             setVideoPath(path);
             mVideoView.start();
             mMediaController.setTitle(getFileName(files,mCurrentFilePosition));
+
+            mHandler.sendEmptyMessage(UniversalMediaController.SHOW_PROGRESS);
         }
 
     }
@@ -358,6 +444,8 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
             setVideoPath(path);
             mVideoView.start();
             mMediaController.setTitle(getFileName(files,mCurrentFilePosition));
+
+            mHandler.sendEmptyMessage(UniversalMediaController.SHOW_PROGRESS);
         }
 
     }
@@ -368,6 +456,8 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
         setVideoPath(path);
         mVideoView.start();
         mMediaController.setTitle(getFileName(files,mCurrentFilePosition));
+
+        mHandler.sendEmptyMessage(UniversalMediaController.SHOW_PROGRESS);
     }
 
 
@@ -394,6 +484,23 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
             super.onBackPressed();
         }
     }
+
+
+    public Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            int pos;
+            switch (msg.what) {
+                case UniversalMediaController.SHOW_PROGRESS:
+                    pos = setPlayProgress();
+                    if (mMediaController.mPlayer != null && mMediaController.mPlayer.isPlaying()) {
+                        msg = obtainMessage(UniversalMediaController.SHOW_PROGRESS);
+                        sendMessageDelayed(msg, 1000 - (pos % 1000));
+                    }
+                    break;
+            }
+        }
+    };
 
 
 }

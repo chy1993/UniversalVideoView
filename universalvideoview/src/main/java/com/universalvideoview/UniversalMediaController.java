@@ -1,20 +1,3 @@
-/*
-* Copyright (C) 2015 Author <dictfb#gmail.com>
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
-
-
 package com.universalvideoview;
 
 import android.content.BroadcastReceiver;
@@ -33,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -45,7 +27,7 @@ import java.util.Locale;
 public class UniversalMediaController extends FrameLayout {
 
 
-    private UniversalMediaController.MediaPlayerControl mPlayer;
+    public UniversalMediaController.MediaPlayerControl mPlayer;
 
     private PlayPrevNextListener mPlayPrevNextListener;
 
@@ -55,20 +37,20 @@ public class UniversalMediaController extends FrameLayout {
 
     public SeekBar mVolumeSeekbar;
 
-    private TextView mEndTime, mCurrentTime;
+    public TextView mEndTime, mCurrentTime;
 
     private TextView mTitle;
 
-    private boolean mShowing = true;
+    public boolean mShowing = true;
 
-    private boolean mDragging;
+    public boolean mDragging;                                      //是否正在拖动
 
     private boolean mScalable = false;
     private boolean mIsFullScreen = false;
 //    private boolean mFullscreenEnabled = false;
 
 
-    private static final int sDefaultTimeout = 3000;
+    public static final int sDefaultTimeout = 3000;               //默认的延迟时间
 
     private static final int STATE_PLAYING = 1;
     private static final int STATE_PAUSE = 2;
@@ -79,14 +61,14 @@ public class UniversalMediaController extends FrameLayout {
     private int mState = STATE_LOADING;
 
 
-    private static final int FADE_OUT = 1;
-    private static final int SHOW_PROGRESS = 2;
-    private static final int SHOW_LOADING = 3;
-    private static final int HIDE_LOADING = 4;
-    private static final int SHOW_ERROR = 5;
-    private static final int HIDE_ERROR = 6;
-    private static final int SHOW_COMPLETE = 7;
-    private static final int HIDE_COMPLETE = 8;
+    public static final int FADE_OUT = 1;
+    public static final int SHOW_PROGRESS = 2;
+    public static final int SHOW_LOADING = 3;
+    public static final int HIDE_LOADING = 4;
+    public static final int SHOW_ERROR = 5;
+    public static final int HIDE_ERROR = 6;
+    public static final int SHOW_COMPLETE = 7;
+    public static final int HIDE_COMPLETE = 8;
     StringBuilder mFormatBuilder;
 
     Formatter mFormatter;
@@ -339,8 +321,10 @@ public class UniversalMediaController extends FrameLayout {
         }
     }
 
-
-    private Handler mHandler = new Handler() {
+    /**
+     * 负责控制器各方面显示
+     */
+    public Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             int pos;
@@ -444,7 +428,7 @@ public class UniversalMediaController extends FrameLayout {
 
 
     //seekbar与播放器相联系的地方
-    private int setProgress() {
+    public int setProgress() {
         if (mPlayer == null || mDragging) {
             return 0;
         }
@@ -654,7 +638,7 @@ public class UniversalMediaController extends FrameLayout {
     /**
      * 播放暂停按钮状态的切换
      */
-    private void updatePausePlay() {
+    public void updatePausePlay() {
         if (mPlayer != null && mPlayer.isPlaying()) {
             mTurnButton.setImageResource(R.drawable.fullscreen_play_press);
             hideCenterView();
@@ -714,7 +698,6 @@ public class UniversalMediaController extends FrameLayout {
      */
     private OnSeekBarChangeListener mSeekListener = new OnSeekBarChangeListener() {
         int newPosition = 0;
-
         boolean change = false;
 
         public void onStartTrackingTouch(SeekBar bar) {
@@ -938,7 +921,7 @@ public class UniversalMediaController extends FrameLayout {
     }
 
 
-    private String stringForTime(int timeMs) {
+    public String stringForTime(int timeMs) {
         int totalSeconds = timeMs / 1000;
 
         int seconds = totalSeconds % 60;
