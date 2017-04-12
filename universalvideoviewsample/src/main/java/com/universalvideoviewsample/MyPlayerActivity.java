@@ -103,6 +103,11 @@ public class MyPlayerActivity extends AppCompatActivity implements UniversalVide
             @Override
             public void onClick(View v) {
                 mMediaController.mTurnButton.performClick();
+
+                //再点击按钮的时候做判断 如果是播放发消息更新
+                if (mMediaController.mPlayer.isPlaying()){
+                    mHandler.sendEmptyMessage(UniversalMediaController.SHOW_PROGRESS);
+                }
             }
          });
 

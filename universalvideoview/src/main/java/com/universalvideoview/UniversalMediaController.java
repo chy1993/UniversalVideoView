@@ -273,6 +273,7 @@ public class UniversalMediaController extends FrameLayout {
      *                the controller until hide() is called.
      */
     public void show(int timeout) {
+        //非全屏状态下不显示控制条
         if (!mIsFullScreen){
             return;
         }
